@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FranceTaxi - Service de Taxi Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .font-inter {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .service-card:hover::before {
+            left: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .floating-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .booking-form {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .price-display {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .contact-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-icon:hover {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="font-playfair text-2xl font-bold text-blue-900">
+                    FranceTaxi
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#services" class="text-gray-700 hover:text-blue-900 transition-colors">Services</a>
+                    <a href="#why-us" class="text-gray-700 hover:text-blue-900 transition-colors">Pourquoi Nous</a>
+                    <a href="#booking" class="text-gray-700 hover:text-blue-900 transition-colors">Réservation</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-900 transition-colors">Contact</a>
+                </div>
+                <button class="md:hidden">
+                    <i class="fas fa-bars text-blue-900"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center justify-center text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="font-playfair text-5xl md:text-7xl font-bold mb-6 fade-in">
+                FranceTaxi
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto fade-in">
+                Votre service de taxi premium en France. Élégance, ponctualité et confort à chaque trajet.
+            </p>
+            <button onclick="scrollToSection('booking')" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold fade-in">
+                <i class="fas fa-taxi mr-2"></i>
+                Réserver Maintenant
+            </button>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 floating-animation">
+            <i class="fas fa-chevron-down text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-playfair text-4xl font-bold text-blue-900 mb-4 fade-in">
+                    Nos Services
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto fade-in">
+                    Découvrez nos trois catégories de service, adaptées à tous vos besoins
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Service Économique -->
+                <div class="service-card bg-white p-8 rounded-xl shadow-lg text-center fade-in">
+                    <div class="text-5xl mb-6">
+                        <i class="fas fa-car text-blue-600"></i>
+                    </div>
+                    <h3 class="font-playfair text-2xl font-bold mb-4 text-blue-900">Économique</h3>
+                    <p class="text-gray-600 mb-6">
+                        Service fiable et abordable pour vos déplacements quotidiens
+                    </p>
+                    <div class="text-3xl font-bold text-blue-600 mb-4">
+                        À partir de 2€/km
+                    </div>
+                    <ul class="text-left text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Véhicules récents</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Chauffeurs professionnels</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Prix transparents</li>
+                    </ul>
+                </div>
+
+                <!-- Service Confort -->
+                <div class="service-card bg-white p-8 rounded-xl shadow-lg text-center fade-in">
+                    <div class="text-5xl mb-6">
+                        <i class="fas fa-car-side text-yellow-600"></i>
+                    </div>
+                    <h3 class="font-playfair text-2xl font-bold mb-4 text-blue-900">Confort</h3>
+                    <p class="text-gray-600 mb-6">
+                        Voyagez dans le confort avec nos véhicules haut de gamme
+                    </p>
+                    <div class="text-3xl font-bold text-yellow-600 mb-4">
+                        À partir de 3.5€/km
+                    </div>
+                    <ul class="text-left text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Véhicules berlines</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Climatisation</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Wi-Fi gratuit</li>
+                    </ul>
+                </div>
+
+                <!-- Service Premium -->
+                <div class="service-card bg-white p-8 rounded-xl shadow-lg text-center fade-in">
+                    <div class="text-5xl mb-6">
+                        <i class="fas fa-crown text-yellow-500"></i>
+                    </div>
+                    <h3 class="font-playfair text-2xl font-bold mb-4 text-blue-900">Premium</h3>
+                    <p class="text-gray-600 mb-6">
+                        L'excellence française pour vos moments d'exception
+                    </p>
+                    <div class="text-3xl font-bold text-yellow-500 mb-4">
+                        À partir de 5€/km
+                    </div>
+                    <ul class="text-left text-gray-600 space-y-2">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Véhicules de luxe</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Chauffeur privé</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Service concierge</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-playfair text-4xl font-bold text-blue-900 mb-4 fade-in">
+                    Pourquoi Nous Choisir
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto fade-in">
+                    Votre satisfaction est notre priorité absolue
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="flex items-start space-x-4 fade-in">
+                    <div class="text-3xl text-blue-600">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xl mb-2 text-blue-900">Service 24h/24</h3>
+                        <p class="text-gray-600">Disponible à toute heure, tous les jours de l'année</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4 fade-in">
+                    <div class="text-3xl text-blue-600">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xl mb-2 text-blue-900">Chauffeurs Professionnels</h3>
+                        <p class="text-gray-600">Équipe expérimentée et courtoise, connaissance parfaite de la région</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4 fade-in">
+                    <div class="text-3xl text-blue-600">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xl mb-2 text-blue-900">Prix Fixes</h3>
+                        <p class="text-gray-600">Tarifs transparents, sans surprise ni frais cachés</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4 fade-in">
+                    <div class="text-3xl text-blue-600">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xl mb-2 text-blue-900">Sécurité Maximale</h3>
+                        <p class="text-gray-600">Véhicules assurés, chauffeurs vérifiés et formés</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4 fade-in">
+                    <div class="text-3xl text-blue-600">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xl mb-2 text-blue-900">Réservation Facile</h3>
+                        <p class="text-gray-600">Commande en ligne simple et confirmation instantanée</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4 fade-in">
+                    <div class="text-3xl text-blue-600">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xl mb-2 text-blue-900">Service Personnalisé</h3>
+                        <p class="text-gray-600">Attention particulière à chaque client et ses besoins</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-playfair text-4xl font-bold text-blue-900 mb-4 fade-in">
+                    Réservation Simulée
+                </h2>
+                <p class="text-xl text-gray-600 fade-in">
+                    Obtenez votre devis en quelques clics
+                </p>
+            </div>
+            
+            <div class="booking-form p-8 fade-in">
+                <form id="bookingForm" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-user mr-2"></i>Nom complet
+                            </label>
+                            <input type="text" id="fullName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-phone mr-2"></i>Téléphone
+                            </label>
+                            <input type="tel" id="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-map-marker-alt mr-2"></i>Adresse de départ
+                            </label>
+                            <input type="text" id="pickup" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-flag-checkered mr-2"></i>Destination
+                            </label>
+                            <input type="text" id="destination" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-calendar mr-2"></i>Date
+                            </label>
+                            <input type="date" id="date" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-clock mr-2"></i>Heure
+                            </label>
+                            <input type="time" id="time" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-car mr-2"></i>Service
+                            </label>
+                            <select id="service" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Choisir un service</option>
+                                <option value="economique">Économique</option>
+                                <option value="confort">Confort</option>
+                                <option value="premium">Premium</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold">
+                            <i class="fas fa-calculator mr-2"></i>
+                            Calculer le Prix
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="priceResult" class="price-display">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold mb-2">Prix Estimé</div>
+                        <div id="estimatedPrice" class="text-4xl font-bold text-yellow-300"></div>
+                        <div class="text-sm mt-2 opacity-90">Prix indicatif - Confirmation par SMS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-playfair text-4xl font-bold text-blue-900 mb-4 fade-in">
+                    Contact
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto fade-in">
+                    Nous sommes là pour vous accompagner
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="fade-in">
+                    <div class="contact-icon text-5xl text-blue-600 mb-4">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-2 text-blue-900">Email</h3>
+                    <a href="mailto:contact@dntrusted.com" class="text-blue-600 hover:text-yellow-600 transition-colors">
+                        contact@dntrusted.com
+                    </a>
+                </div>
+                
+                <div class="fade-in">
+                    <div class="contact-icon text-5xl text-blue-600 mb-4">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-2 text-blue-900">Téléphone</h3>
+                    <p class="text-gray-600">01 23 45 67 89</p>
+                </div>
+                
+                <div class="fade-in">
+                    <div class="contact-icon text-5xl text-blue-600 mb-4">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-2 text-blue-900">Adresse</h3>
+                    <p class="text-gray-600">123 Avenue des Champs-Élysées<br>75008 Paris, France</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-playfair text-2xl font-bold mb-4">FranceTaxi</h3>
+                    <p class="text-blue-200">
+                        Votre partenaire de confiance pour tous vos déplacements en France.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-blue-200">
+                        <li><a href="#" class="hover:text-white transition-colors">Taxi Économique</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Taxi Confort</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Taxi Premium</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Transfert Aéroport</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Informations</h4>
+                    <ul class="space-y-2 text-blue-200">
+                        <li><a href="#" class="hover:text-white transition-colors">Nos Tarifs</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Conditions Générales</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Politique de Confidentialité</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Suivez-nous</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-blue-200 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="text-blue-200 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-blue-200 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-blue-200 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <div class="text-center">
+                <p class="text-blue-200">
+                    © 2024 FranceTaxi. Tous droits réservés.
+                </p>
+                <p class="text-yellow-300 mt-2 font-semibold">
+                    Projet complet à vendre : domaine + site web. Créé par DNtrusted.com
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling function
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Fade in animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Booking form functionality
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const pickup = document.getElementById('pickup').value;
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const service = document.getElementById('service').value;
+            
+            // Validate all fields
+            if (!fullName || !phone || !pickup || !destination || !date || !time || !service) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
+            }
+            
+            // Calculate fake price based on service
+            let basePrice = 0;
+            switch(service) {
+                case 'economique':
+                    basePrice = 25;
+                    break;
+                case 'confort':
+                    basePrice = 40;
+                    break;
+                case 'premium':
+                    basePrice = 65;
+                    break;
+            }
+            
+            // Add random distance factor
+            const distance = Math.floor(Math.random() * 20) + 5;
+            const multiplier = service === 'economique' ? 2 : service === 'confort' ? 3.5 : 5;
+            const finalPrice = basePrice + (distance * multiplier);
+            
+            // Display the result
+            document.getElementById('estimatedPrice').textContent = `${finalPrice.toFixed(2)}€`;
+            document.getElementById('priceResult').style.display = 'block';
+            
+            // Scroll to result
+            document.getElementById('priceResult').scrollIntoView({
+                behavior: 'smooth'
+            });
+            
+            // Show success message
+            setTimeout(() => {
+                alert(`Merci ${fullName} ! Votre réservation pour le ${date} à ${time} de ${pickup} vers ${destination} a été prise en compte. Prix estimé : ${finalPrice.toFixed(2)}€. Nous vous confirmerons par SMS au ${phone}.`);
+            }, 1000);
+        });
+
+        // Set minimum date to today
+        document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+        // Event listeners
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Initialize animations
+        animateOnScroll();
+    </script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDq0NeUg%2F0QMXe4Ie1WXvRRROnhe3JHyKL49lnDdhdhzVwv7ut0l8S62d3w3mQV6cR750EPqrxVgA6%2BvfZUlhBpOZr3F6Xs2tKsoNDjTwiILa6F4d2CwM5yfrwcdTbnQnnu0gO%2BpCqHt8vyEbI2tLriu3JlH7GlXu90E3j6sn8RrTeRYiYiSfC8cAfxJrioWBAucfHg06R9POJJTYxS6rB8O8W%2B%2B07OXj8Gm93NwUXdR1rfA4R%2BOVwVdPDJHjeLP4f9wEYL3HM3Hta%2FwKIsFcFukFdBhNrfHgt4w4IKsw%2BLRkGLRqLPWrIUnkPYC8GIpVP9J8y%2BfVEMNegIgCZq4RsbuZ3%2FV%2Bff2vyww27J7FDIe7sUxjX5HvRaqo8%2B34fWLINBI6OJLrsF6ei37F7lVEYMK%2FMsu8zt%2BHjNC6IG6SIc8vFchYX7MkIwg%2BCCFSeODVwLjE6o5KMhd9rwHz8LQho4mIloYqSUx370%2Fa%2Fe8eejMS2TW6RkynGF5ICcs83Qbkz1v6JwsH9IvnqKK2tRn5A3g%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDq0NeUg/0QMXe4Ie1WXvRRROnhe3JHyKL49lnDdhdhzVwv7ut0l8S62d3w3mQV6cR750EPqrxVgA6+vfZUlhBpOZr3F6Xs2tKsoNDjTwiILa6F4d2CwM5yfrwcdTbnQnnu0gO+pCqHt8vyEbI2tLriu3JlH7GlXu90E3j6sn8RrTeRYiYiSfC8cAfxJrioWBAucfHg06R9POJJTYxS6rB8O8W++07OXj8Gm93NwUXdR1rfA4R+OVwVdPDJHjeLP4f9wEYL3HM3Hta/wKIsFcFukFdBhNrfHgt4w4IKsw+LRkGLRqLPWrIUnkPYC8GIpVP9J8y+fVEMNegIgCZq4RsbuZ3/V+ff2vyww27J7FDIe7sUxjX5HvRaqo8+34fWLINBI6OJLrsF6ei37F7lVEYMK/Msu8zt+HjNC6IG6SIc8vFchYX7MkIwg+CCFSeODVwLjE6o5KMhd9rwHz8LQho4mIloYqSUx370/a/e8eejMS2TW6RkynGF5ICcs83Qbkz1v6JwsH9IvnqKK2tRn5A3g=";
+    </script>
+    
+        <script id="html_badge_script2" src="https://www.genspark.ai/html_badge.js"></script>
+        
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
